@@ -1,0 +1,21 @@
+[
+{
+"modid": "JATM",
+"name": "Just Another Tech Mod",
+"description": "Another Tech Mod",
+"version": "1.0",
+"mcversion": "1.7.10",
+"url": "",
+"updateUrl": "",
+"authorList": [
+"VitezKolya"
+],
+"credits": "",
+"logoFile": "",
+"screenshots": [
+],
+"parent":"",
+"dependencies": [
+]
+}
+]
