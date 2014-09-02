@@ -2,7 +2,7 @@ package com.vitezkolya.jatm.reference;
 
 public class Reference {
 
-	public static final String MOD_ID = "JATM";
+	public static final String MOD_ID = "jatm";
 	public static final String MOD_NAME = "Just Another Tech Mod";
 	public static final String FINGERPRINT = "@FINGERPRINT@";
 	public static final String VERSION = "@VERSION@";

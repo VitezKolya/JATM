@@ -1,0 +1,13 @@
+
+# Items
+item.jatm:steelFrameBrace.name=Steel Frame Brace
+item.jatm:coke.name=Coke
+
+# Blocks
+tile.jatm:heavyDutySteelFrame.name=Heavy Duty Steel Frame
+tile.jatm:blockCharcoal.name=Block of Charcoal
+
+
+# Creative Tabs
+itemGroup.jatm_main=Just Another Tech Mod - Main
+itemGroup.jatm_resources=Just Another Tech Mod - Resources

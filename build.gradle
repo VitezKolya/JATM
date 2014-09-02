@@ -21,9 +21,17 @@ version = "1.7.10-0.1"
 group= "com.vitezkolya.jatm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "JATM"
 
+configurations {
+
+	conpileOnly
+}
+dependencies {
+
+	compileOnly files('libs/UniversalElectricity-1.7.2-3.2.0-dev.jar')
+}
+
 minecraft {
     version = "1.7.10-10.13.0.1180"
-    assetDir = "eclipse/assets"
 }
 
 dependencies {
