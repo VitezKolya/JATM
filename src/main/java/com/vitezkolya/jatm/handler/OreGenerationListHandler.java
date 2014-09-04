@@ -1,5 +1,6 @@
 package com.vitezkolya.jatm.handler;
 
+import com.vitezkolya.jatm.utility.LogHelper;
 import com.vitezkolya.jatm.utility.Ore;
 import net.minecraft.block.Block;
 
@@ -26,6 +27,8 @@ public class OreGenerationListHandler {
 
 		oreList.add(new Ore(block, defaultVeinCount, defaultVeinSize, defaultMinHeight, defaultMaxHeight,
 				defaultVeinChance, defaultDimensionList));
+
+		LogHelper.info(("Added: " + block.getLocalizedName()));
 	}
 
 
@@ -47,5 +50,10 @@ public class OreGenerationListHandler {
 	public ArrayList<Ore> getOreList() {
 
 		return oreList;
+	}
+
+	public void setOreList(ArrayList<Ore> oreList) {
+
+		this.oreList = oreList;
 	}
 }

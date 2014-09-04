@@ -3,6 +3,7 @@ package com.vitezkolya.jatm.handler;
 import com.vitezkolya.jatm.JATM;
 import com.vitezkolya.jatm.reference.Messages;
 import com.vitezkolya.jatm.reference.Reference;
+import com.vitezkolya.jatm.utility.LogHelper;
 import com.vitezkolya.jatm.utility.Ore;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -37,65 +38,66 @@ public class ConfigurationHandler {
 
 		ArrayList<Ore> oreList = JATM.OGLinstance.getOreList();
 
-		if (oreList != null) {
-			for (int index = 0; index < oreList.size() - 1; index++) {
+		if (!oreList.isEmpty()) {
+
+			for (int index = 0; index < oreList.size(); index++) {
 
 				Ore ore = oreList.get(index);
 
-				ore.enabled = configuration.getBoolean(ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.GENERATION_ORE_ENABLE,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				LogHelper.info(("Config add: " + ore.block.getLocalizedName()));
+
+				ore.enabled = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.GENERATION_ORE_ENABLE,
 						ore.enabledDefault,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.GENERATION_ORE_ENABLE_COMMENT),
-						Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.GENERATION_ORE_ENABLE_LABEL);
+						Messages.Configuration.GENERATION_ORE_ENABLE_COMMENT).getBoolean(ore.enabledDefault);
 
-				ore.minHeight = configuration.getInt(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_MIN_HEIGHT,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				ore.minHeight = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.ORE_MIN_HEIGHT,
 						ore.minHeightDefault,
+						Messages.Configuration.ORE_MIN_HEIGHT_COMMENT,
 						0,
-						255,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_MIN_HEIGHT_COMMENT),
-						Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_MIN_HEIGHT_LABEL);
+						255).getInt(ore.minHeightDefault);
 
-				ore.maxHeight = configuration.getInt(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_MAX_HEIGHT,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				ore.maxHeight = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.ORE_MAX_HEIGHT,
 						ore.maxHeightDefault,
+						Messages.Configuration.ORE_MAX_HEIGHT_COMMENT,
 						0,
-						255,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_MAX_HEIGHT_COMMENT),
-						Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_MAX_HEIGHT_LABEL);
+						255).getInt(ore.maxHeightDefault);
 
-				ore.veinSize = configuration.getInt(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_SIZE,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				ore.veinSize = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.ORE_VEIN_SIZE,
 						ore.veinSizeDefault,
+						Messages.Configuration.ORE_VEIN_SIZE_COMMENT,
 						0,
-						255,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_SIZE_COMMENT),
-						Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_SIZE_LABEL);
+						255).getInt(ore.veinSizeDefault);
 
-				ore.veinChance = configuration.getInt(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_CHANCE,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				ore.veinChance = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.ORE_VEIN_CHANCE,
 						ore.veinChanceDefault,
+						Messages.Configuration.ORE_VEIN_CHANCE_COMMENT,
 						0,
-						255,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_CHANCE_COMMENT),
-						Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_CHANCE_LABEL);
+						255).getInt(ore.veinChanceDefault);
 
-				ore.veinCount = configuration.getInt(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_COUNT,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				ore.veinCount = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.ORE_VEIN_COUNT,
 						ore.veinCountDefault,
+						Messages.Configuration.ORE_VEIN_COUNT_COMMENT,
 						0,
-						255,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_COUNT_COMMENT),
-						Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_VEIN_COUNT_LABEL);
+						255).getInt(ore.veinCountDefault);
 
-				/**
-				 *
-				 */
-				ore.dimensionListDefault = configuration.getStringList(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_DIMENSION_LIST,
-						Messages.Configuration.CATEGORY_GENERATION_ORE,
+				ore.dimensionListDefault = configuration.get(Messages.Configuration.CATEGORY_GENERATION_ORE + "." + ore.block.getLocalizedName().toLowerCase().replace(' ', '_'),
+						Messages.Configuration.ORE_DIMENSION_LIST,
 						ore.dimensionListDefault,
-						StatCollector.translateToLocal(Messages.Configuration.CATEGORY_GENERATION_ORE + ore.block.getUnlocalizedName().toLowerCase() + Messages.Configuration.ORE_DIMENSION_LIST_COMMENT));
+						Messages.Configuration.ORE_DIMENSION_LIST_COMMENT).getStringList();
+
+				// Save the config to the ore
+				oreList.set(index,ore);
 			}
+
+			// Save the configs to the ore list
+			JATM.OGLinstance.setOreList(oreList);
+
 		}
 
 		if (configuration.hasChanged()) {

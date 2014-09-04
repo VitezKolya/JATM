@@ -11,3 +11,12 @@ tile.jatm:blockCharcoal.name=Block of Charcoal
 # Creative Tabs
 itemGroup.jatm_main=Just Another Tech Mod - Main
 itemGroup.jatm_resources=Just Another Tech Mod - Resources
+
+# Configuration
+vein.size.comment=Ore vein size.
+dimension.list.comment=List of dimensions ore is allowed to spawn in.
+enable.comment=Enable ore generation.
+max.height.comment=Max height to spawn at.
+min.height.comment=Min height to spawn at.
+vein.chance.comment=Chance for ore vein to spawn.
+vein.count.comment=Max number of veins to spawn per chunk.

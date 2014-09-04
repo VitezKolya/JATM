@@ -3,6 +3,7 @@ package com.vitezkolya.jatm.worldgen;
 import com.vitezkolya.jatm.JATM;
 import com.vitezkolya.jatm.reference.Reference;
 import com.vitezkolya.jatm.reference.Settings;
+import com.vitezkolya.jatm.utility.LogHelper;
 import com.vitezkolya.jatm.utility.Ore;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -36,65 +37,76 @@ public class OreGenerator implements IWorldGenerator {
 
 		ArrayList<Ore> oreList = JATM.OGLinstance.getOreList();
 
-		for(int ores = 0; ores < oreList.size(); ores++) {
+		if (!oreList.isEmpty()) {
 
-			Ore ore = oreList.get(ores);
+			for (int index = 0; index < oreList.size(); index++) {
 
-			for(int dimListIndex = 0; dimListIndex < ore.dimensionList.length; dimListIndex++) {
+				Ore ore = oreList.get(index);
 
-				String dimension = ore.dimensionList[dimListIndex];
-				String dimReplaceBlock = "";
+				if(ore.enabled == true) {
 
-				//     -15:endstone,-1,0,1, 5~25, 26, 32~50:Netherrak
+					if (ore.dimensionList != null) {
 
-				if(checkDimSpecChars(dimension)) {
+						LogHelper.info(ore.block.getLocalizedName() + "\'s dimension list is not null");
 
-					if(dimension.contains(":")) {
+						for (int dimListIndex = 0; dimListIndex < ore.dimensionList.length; dimListIndex++) {
 
-						String[] dimSplit;
+							String dimension = ore.dimensionList[dimListIndex];
+							String dimReplaceBlock = "";
 
-						dimSplit = splitDimensionData(dimension);
+							//     -15:endstone,-1,0,1, 5~25, 26, 32~50:Netherrak
 
-						dimension = dimSplit[0];
-						dimReplaceBlock = dimSplit[1];
+							if (checkDimSpecChars(dimension)) {
 
-					}
+								if (dimension.contains(":")) {
 
-					if(dimension.contains("~")){
+									String[] dimSplit;
 
-						if(isValidDim(dimension, world)) {
+									dimSplit = splitDimensionData(dimension);
 
-							dimReplaceBlock = defaultMinecraftDims(world);
+									dimension = dimSplit[0];
+									dimReplaceBlock = dimSplit[1];
 
-							if(dimReplaceBlock != "") {
+								}
 
-								addOreSpawn(ore.block, GameRegistry.findBlock(Reference.MOD_ID, dimReplaceBlock), world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+								if (dimension.contains("~")) {
+
+									if (isValidDim(dimension, world)) {
+
+										dimReplaceBlock = defaultMinecraftDims(world);
+
+										if (dimReplaceBlock != "") {
+
+											addOreSpawn(ore.block, GameRegistry.findBlock(Reference.MOD_ID, dimReplaceBlock), world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+										} else {
+
+											addOreSpawn(ore.block, world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+										}
+									}
+								} else {
+
+									if (isValidDim(dimension, world)) {
+
+										if (dimReplaceBlock != "") {
+
+											addOreSpawn(ore.block, GameRegistry.findBlock(Reference.MOD_ID, dimReplaceBlock), world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+										} else {
+
+											addOreSpawn(ore.block, world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+										}
+									}
+								}
 							} else {
 
-								addOreSpawn(ore.block, world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+								if (isValidDim(dimension, world)) {
+
+									dimReplaceBlock = defaultMinecraftDims(world);
+
+									// Spawn ore
+									addOreSpawn(ore.block, world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
+								}
 							}
 						}
-					} else {
-
-						if(isValidDim(dimension, world)) {
-
-							if(dimReplaceBlock != "") {
-
-								addOreSpawn(ore.block, GameRegistry.findBlock(Reference.MOD_ID, dimReplaceBlock), world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
-							} else {
-
-								addOreSpawn(ore.block, world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
-							}
-						}
-					}
-				} else {
-
-					if(isValidDim(dimension, world)) {
-
-						dimReplaceBlock = defaultMinecraftDims(world);
-
-						// Spawn ore
-						addOreSpawn(ore.block, world, random, chunkX * 16, chunkZ * 16, ore.veinSize - random.nextInt(6), ore.veinSize, ore.veinChance, ore.minHeight, ore.maxHeight);
 					}
 				}
 			}
@@ -109,7 +121,7 @@ public class OreGenerator implements IWorldGenerator {
 			int smallerDimID = Integer.parseInt(dimSplit[0]);
 			int largerDimID = Integer.parseInt(dimSplit[1]);
 
-			for(int dimId = smallerDimID; smallerDimID < largerDimID; smallerDimID++) {
+			for(int dimId = smallerDimID; smallerDimID <= largerDimID; smallerDimID++) {
 
 				if(world.provider.dimensionId == smallerDimID) {
 
@@ -197,7 +209,7 @@ public class OreGenerator implements IWorldGenerator {
 		if(maxVeinSize <= 0) {
 			maxVeinSize = 1;
 		}
-
+		LogHelper.info("Spawning ore");
 		WorldGenMinable minable = new WorldGenMinable(block, (minVeinSize + random.nextInt(maxVeinSize - minVeinSize)), Replaceable);
 
 		for(int i = 0; i < chancesToSpawn; i++)

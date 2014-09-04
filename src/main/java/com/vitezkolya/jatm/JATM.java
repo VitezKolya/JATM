@@ -10,6 +10,7 @@ import com.vitezkolya.jatm.proxy.IProxy;
 import com.vitezkolya.jatm.reference.Reference;
 import com.vitezkolya.jatm.utility.LogHelper;
 import com.vitezkolya.jatm.worldgen.OreGenerator;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -24,7 +25,7 @@ public class JATM {
 	@Mod.Instance(Reference.MOD_ID)
 	public static JATM instance;
 
-	public static OreGenerationListHandler OGLinstance;
+	public static OreGenerationListHandler OGLinstance = new OreGenerationListHandler();
 
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
@@ -36,14 +37,13 @@ public class JATM {
 		// Configs
 		// Init items, blocks, recipes
 
-		this.OGLinstance = new OreGenerationListHandler();
-
 		PacketHandler.init();
 
 		ModItems.init();
 		ModBlocks.init();
 
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 1);
 
